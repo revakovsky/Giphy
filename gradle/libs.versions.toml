@@ -58,6 +58,9 @@ ver_OkHttpBom               = "4.11.0"
 ver_Retrofit2               = "2.9.0"
 ver_Gson                    = "2.10.1"
 
+#Lottie animations
+ver_Lottie                  = "6.0.1"
+
 # --------------------------------------------------------------------------------------------------
 
 
@@ -130,6 +133,9 @@ network-loggingInterceptor = { module = "com.squareup.okhttp3:logging-intercepto
 network-retrofit2          = { module = "com.squareup.retrofit2:retrofit", version.ref = "ver_Retrofit2" }
 network-converterGson      = { module = "com.squareup.retrofit2:converter-gson", version.ref = "ver_Retrofit2" }
 network-gson               = { module = "com.google.code.gson:gson", version.ref = "ver_Gson" }
+
+#Lottie animations
+lottie                     = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "ver_Lottie" }
 
 # --------------------------------------------------------------------------------------------------
 

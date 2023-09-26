@@ -12,4 +12,5 @@ Test task to create an application for displaying GIF animations from the Giphy 
 - Hilt for DI
 - Animated screen transitions
 - Nested navigation
+- Lottie animations for compose
 - 
