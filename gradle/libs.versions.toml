@@ -30,7 +30,7 @@ ver_Material                = "1.9.0"
 # Compose
 ver_ActivityCompose         = "1.7.2"
 ver_ComposeBom              = "2023.09.01"
-ver_NavigationCompose       = "2.7.0"
+ver_NavigationCompose       = "2.7.3"
 ver_Coil                    = "2.4.0"
 
 # Tests
