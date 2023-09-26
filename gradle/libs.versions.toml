@@ -9,14 +9,15 @@ versionName                 = "1.0"
 
 testInstrumentationRunner   = "androidx.test.runner.AndroidJUnitRunner"
 kotlinCompilerExtension     = "1.4.3"
-jvmTarget                   = "1.8"
+jvmTarget                   = "17"
 
 # Module names
 name-app                    = "com.revakovskyi.giphy"
 
 # Plugins
 ver_AndroidApplication      = "8.2.0-alpha06"
-ver_Kotlin                  = "1.8.10"
+ver_KotlinJvm               = "1.8.10"
+ver_KotlinAndroid           = "1.8.10"
 ver_KotlinKsp               = "1.8.0-1.0.9"
 
 # Android
@@ -65,9 +66,9 @@ android-application        = { id = "com.android.application", version.ref = "ve
 android-library            = { id = "com.android.library", version.ref = "ver_AndroidApplication" }
 
 # Kotlin
-kotlin-android             = { id = "org.jetbrains.kotlin.android", version.ref = "ver_Kotlin" }
+kotlin-android             = { id = "org.jetbrains.kotlin.android", version.ref = "ver_KotlinAndroid" }
 kotlin-ksp                 = { id = "com.google.devtools.ksp", version.ref = "ver_KotlinKsp" }
-kotlin-jvm                 = { id = "org.jetbrains.kotlin.jvm", version.ref = "ver_Kotlin" }
+kotlin-jvm                 = { id = "org.jetbrains.kotlin.jvm", version.ref = "ver_KotlinJvm" }
 
 # Hilt
 hilt                       = { id = "com.google.dagger.hilt.android", version.ref = "ver_Hilt" }
