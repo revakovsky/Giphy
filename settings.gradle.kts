@@ -14,4 +14,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Giphy"
+
 include(":app")
+include(":domain")
+include(":data")

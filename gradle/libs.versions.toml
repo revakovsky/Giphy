@@ -13,6 +13,8 @@ jvmTarget                   = "17"
 
 # Module names
 name-app                    = "com.revakovskyi.giphy"
+name-domain                 = "com.revakovskyi.domain"
+name-data                   = "com.revakovskyi.data"
 
 # Plugins
 ver_AndroidApplication      = "8.2.0-alpha06"
@@ -40,8 +42,8 @@ ver_EspressoCore            = "3.5.1"
 ver_LifecycleRuntimeKtx     = "2.6.2"
 ver_LifecycleViewmodel      = "2.6.2"
 
-# Kotlinx
-var_CoroutinesAndroid       = "1.7.1"
+# Coroutines
+var_Coroutines              = "1.7.3"
 
 # Hilt
 ver_Hilt                    = "2.48"
@@ -106,8 +108,9 @@ lifecycle-runtimeKtx       = { group = "androidx.lifecycle", name = "lifecycle-r
 lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "ver_LifecycleViewmodel" }
 lifecycle-runtimeCompose   = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "ver_LifecycleViewmodel" }
 
-# Kotlinx
-coroutines                 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "var_CoroutinesAndroid" }
+# Coroutines
+coroutines-android         = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "var_Coroutines" }
+coroutines-core            = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "var_Coroutines" }
 
 # Hilt
 hilt                       = { group = "com.google.dagger", name = "hilt-android", version.ref = "ver_Hilt" }

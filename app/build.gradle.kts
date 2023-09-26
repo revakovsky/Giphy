@@ -60,6 +60,10 @@ android {
 
 dependencies {
 
+    // Modules
+    implementation(project(path = ":data"))
+    implementation(project(path = ":domain"))
+
     // Android
     implementation(libs.android.coreKtx)
     implementation(libs.compose.activityCompose)
@@ -79,8 +83,8 @@ dependencies {
     // Lifecycle
     implementation(libs.bundles.lifecycle)
 
-    // Coroutine
-    implementation(libs.coroutines)
+    // Coroutines
+    implementation(libs.coroutines.android)
 
     // Hilt
     implementation(libs.bundles.hilt)
