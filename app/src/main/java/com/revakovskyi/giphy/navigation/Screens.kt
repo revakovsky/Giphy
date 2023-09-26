@@ -8,8 +8,9 @@ internal sealed class Screens(
     val route: String,
     val arguments: (String) -> String = { "" },
 ) {
-    object GIFS_NAVIGATION_ROUTE : Screens("gifs_navigation")
     object SPLASH_NAVIGATION_ROUTE : Screens("splash_navigation")
+    object GIFS_NAVIGATION_ROUTE : Screens("gifs_navigation")
+
 
     object SplashScreen : Screens("splash_screen")
     object GifsScreen : Screens("gifs_screen")

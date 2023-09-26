@@ -17,6 +17,8 @@ data class Dimens(
     val large: Dp = 32.dp,
     val extraLarge: Dp = 64.dp,
     val largest: Dp = 128.dp,
+
+    val lottieAnimationsSize: Dp = 250.dp,
 )
 
 val LocalDimens = compositionLocalOf { Dimens() }

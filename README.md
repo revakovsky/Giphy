@@ -7,7 +7,6 @@ Test task to create an application for displaying GIF animations from the Giphy 
 
 - Kotlin DSL
 - Material 3 Design
-- Dark / Light mode
 - Multi-module project
 - Hilt for DI
 - Animated screen transitions
