@@ -8,8 +8,10 @@ Test task to create an application for displaying GIF animations from the Giphy 
 - Kotlin DSL
 - Material 3 Design
 - Multi-module project
+- Jetpack Compose
+- MVI architecture
 - Hilt for DI
-- Animated screen transitions
 - Nested navigation
+- Animated screen transitions
 - Lottie animations for compose
-- 
+- The Internet connectivity check
