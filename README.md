@@ -1,7 +1,7 @@
 # Giphy
-
 Test task to create an application for displaying GIF animations from the Giphy website
 
+---
 
 ### Libraries and features that were used in the project
 
@@ -15,6 +15,6 @@ Test task to create an application for displaying GIF animations from the Giphy 
 - Animated screen transitions
 - Lottie animations for compose
 - The Internet connectivity check
-- Coroutines + Flow
-- OkHttp + retrofit2
-- 
+- Coroutines
+- Retrofit2 + OkHttp
+- Room
