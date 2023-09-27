@@ -15,3 +15,6 @@ Test task to create an application for displaying GIF animations from the Giphy 
 - Animated screen transitions
 - Lottie animations for compose
 - The Internet connectivity check
+- Coroutines + Flow
+- OkHttp + retrofit2
+- 
