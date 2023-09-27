@@ -112,8 +112,8 @@ lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-v
 lifecycle-runtimeCompose   = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "ver_LifecycleViewmodel" }
 
 # Coroutines
-coroutines-android         = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "var_Coroutines" }
-coroutines-core            = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "var_Coroutines" }
+coroutines-android         = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "var_Coroutines" }
+coroutines-core            = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "var_Coroutines" }
 
 # Hilt
 hilt                       = { group = "com.google.dagger", name = "hilt-android", version.ref = "ver_Hilt" }
@@ -187,4 +187,9 @@ retrofit2 = [
 room = [
     "room-runtime",
     "room-ktx"
+]
+
+coroutines = [
+    "coroutines-android",
+    "coroutines-core"
 ]
