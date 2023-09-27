@@ -1,6 +1,6 @@
 package com.revakovskyi.data.remote
 
-import com.revakovskyi.data.remote.dto.SearchGifsDto
+import com.revakovskyi.data.remote.dto.SearchedGifsDto
 import com.revakovskyi.data.remote.dto.TrendingGifsDto
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -16,7 +16,7 @@ internal interface ApiService {
     suspend fun getGifsByQuery(
         @Query("api_key") apiKey: String = API_KEY,
         @Query("q") query: String,
-    ): SearchGifsDto
+    ): SearchedGifsDto
 
 
     companion object {

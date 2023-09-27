@@ -1,10 +1,11 @@
 package com.revakovskyi.domain.repository
 
 import com.revakovskyi.domain.models.Gif
+import com.revakovskyi.domain.util.DataResult
 
 interface GifRepository {
 
-    suspend fun provideTrendingGifs(): List<Gif>
-    suspend fun provideSearchedGifs(query: String): List<Gif>
+    suspend fun provideTrendingGifs(): DataResult<List<Gif>>
+    suspend fun provideSearchedGifs(query: String): DataResult<List<Gif>>
 
 }

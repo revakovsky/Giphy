@@ -9,12 +9,12 @@ import androidx.room.Query
 internal interface GifDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertGif(gifEntities: List<GifEntity>)
+    suspend fun insertGifEntities(gifEntities: List<GifEntity>)
 
     @Query("DELETE FROM GifEntity")
     suspend fun clearLocalDb()
 
     @Query("SELECT * FROM GifEntity")
-    suspend fun provideGifs(): List<GifEntity>
+    suspend fun provideGifEntities(): List<GifEntity>
 
 }
