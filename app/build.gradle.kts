@@ -84,10 +84,13 @@ dependencies {
     implementation(libs.bundles.lifecycle)
 
     // Coroutines
-    implementation(libs.coroutines.android)
+    implementation(libs.bundles.coroutines)
 
     // Hilt
     implementation(libs.bundles.hilt)
     ksp(libs.hilt.compiler)
+
+    // Lottie animations
+    implementation(libs.lottie)
 
 }

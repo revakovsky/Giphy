@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             GiphyTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.scrim
                 ) {
                     AppNavGraph()
                 }

@@ -1,5 +1,8 @@
 <resources>
 
     <string name="app_name">Giphy</string>
+    <string name="oops">Oops..</string>
+    <string name="connection_was_lost">Looks like the Internet connection was lost</string>
+    <string name="open_settings">Open Settings</string>
 
 </resources>
