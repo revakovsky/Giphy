@@ -68,6 +68,10 @@ dependencies {
     implementation(libs.bundles.retrofit2)
 
     // Coroutines
-    implementation(libs.coroutines.android)
+    implementation(libs.bundles.coroutines)
+
+    // Hilt
+    implementation(libs.bundles.hilt)
+    ksp(libs.hilt.compiler)
 
 }

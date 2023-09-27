@@ -21,8 +21,6 @@ internal fun GifsScreen() {
 
     }
 
-    BackHandler {
-        (context as Activity).finish()
-    }
+    BackHandler { (context as Activity).finish() }
 
 }
