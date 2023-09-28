@@ -9,6 +9,7 @@ class GetTrendingGifsUseCase @Inject constructor(
     private val gifRepository: GifRepository,
 ) {
 
-    suspend operator fun invoke() = gifRepository.provideTrendingGifs()
+    suspend operator fun invoke(shouldRefreshGifs: Boolean) =
+        gifRepository.provideTrendingGifs(shouldRefreshGifs)
 
 }

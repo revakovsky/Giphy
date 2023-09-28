@@ -5,6 +5,5 @@ import com.revakovskyi.giphy.presentation.models.GifUi
 internal data class GifsState(
     val gifs: List<GifUi> = emptyList(),
     val isLoading: Boolean = false,
-    val isRefreshing: Boolean = false,
-    val searchQuery: String = "",
+    val errorMessage: String = "",
 )

@@ -1,7 +1,6 @@
 package com.revakovskyi.data
 
 import android.content.Context
-import android.util.Log
 import com.revakovskyi.data.local.GifDataBase
 import com.revakovskyi.data.mapper.mapToGif
 import com.revakovskyi.data.mapper.mapToGifEntity
@@ -11,6 +10,7 @@ import com.revakovskyi.domain.repository.GifRepository
 import com.revakovskyi.domain.util.DataResult
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.HttpException
+import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
 internal class GifRepositoryImpl @Inject constructor(
@@ -21,16 +21,20 @@ internal class GifRepositoryImpl @Inject constructor(
 
     private val dao = gifDataBase.dao
 
-    override suspend fun provideTrendingGifs(): DataResult<List<Gif>> {
-        val localGifs = dao.provideGifEntities()
+    override suspend fun provideTrendingGifs(shouldRefreshGifs: Boolean): DataResult<List<Gif>> {
+        return try {
+            if (shouldRefreshGifs) downloadNewGifs()
+            else {
+                val localGifs = dao.provideGifEntities()
 
-        Log.d("TAG_Max", "GifRepositoryImpl localGifs = ${localGifs.joinToString()}")
-        Log.d("TAG_Max", "")
-
-        return if (localGifs.isNotEmpty()) {
-            val gifs = localGifs.map { it.mapToGif() }
-            DataResult.Success(gifs)
-        } else downloadNewGifs()
+                if (localGifs.isNotEmpty()) {
+                    val gifs = localGifs.map { it.mapToGif() }
+                    DataResult.Success(gifs)
+                } else downloadNewGifs()
+            }
+        } catch (e: Exception) {
+            handleException(e)
+        }
     }
 
     private suspend fun downloadNewGifs(): DataResult<List<Gif>> {
@@ -38,27 +42,14 @@ internal class GifRepositoryImpl @Inject constructor(
             val trendingGifs = apiService.getTrendingGifs()
             val gifEntities = trendingGifs.data.map { it.mapToGifEntity() }
 
-            Log.d(
-                "TAG_Max",
-                "GifRepositoryImpl downloadNewGifs remoteGifs = ${gifEntities.joinToString()}"
-            )
-            Log.d("TAG_Max", "")
-
-            dao.insertGifEntities(gifEntities)
+            dao.apply {
+                clearLocalDb()
+                insertGifEntities(gifEntities)
+            }
             val gifs = dao.provideGifEntities().map { it.mapToGif() }
             DataResult.Success(gifs)
-        } catch (e: HttpException) {
-            e.printStackTrace()
-            return DataResult.Error(
-                data = null,
-                message = context.getString(R.string.could_not_load_from_the_server)
-            )
         } catch (e: Exception) {
-            e.printStackTrace()
-            return DataResult.Error(
-                data = null,
-                message = context.getString(R.string.something_went_wrong)
-            )
+            handleException(e)
         }
     }
 
@@ -67,27 +58,26 @@ internal class GifRepositoryImpl @Inject constructor(
             val searchedGifs = apiService.getGifsByQuery(query = query)
             val gifEntities = searchedGifs.data.map { it.mapToGifEntity() }
 
-            Log.d(
-                "TAG_Max",
-                "GifRepositoryImpl downloadNewGifs remoteGifs = ${gifEntities.joinToString()}"
-            )
-            Log.d("TAG_Max", "")
-
             dao.apply {
                 clearLocalDb()
                 insertGifEntities(gifEntities)
             }
             val gifs = dao.provideGifEntities().map { it.mapToGif() }
             DataResult.Success(gifs)
-        } catch (e: HttpException) {
-            e.printStackTrace()
-            return DataResult.Error(
+        } catch (e: Exception) {
+            handleException(e)
+        }
+    }
+
+    private fun handleException(e: Exception): DataResult.Error<List<Gif>> {
+        e.printStackTrace()
+        return when (e) {
+            is HttpException -> DataResult.Error(
                 data = null,
                 message = context.getString(R.string.could_not_load_from_the_server)
             )
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return DataResult.Error(
+            is CancellationException -> throw e
+            else -> DataResult.Error(
                 data = null,
                 message = context.getString(R.string.something_went_wrong)
             )
