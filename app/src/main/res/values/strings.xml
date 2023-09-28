@@ -11,5 +11,6 @@
     <string name="incorrect_input">Incorrect input</string>
     <string name="gif_image">GIF image</string>
     <string name="nothing_was_found">Nothing was found :( It may be an internet connection problem</string>
+    <string name="failed_to_load_link">Something went wrong :( Failed to load link</string>
 
 </resources>

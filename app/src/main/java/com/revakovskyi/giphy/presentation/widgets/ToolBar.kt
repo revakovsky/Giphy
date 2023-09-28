@@ -58,7 +58,7 @@ fun ToolBar(
                 Icon(
                     imageVector = navigationIcon,
                     contentDescription = stringResource(R.string.back),
-                    tint = MaterialTheme.colorScheme.secondary,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                 )
             }

@@ -6,6 +6,7 @@ import android.os.Build.VERSION.SDK_INT
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,6 +44,8 @@ import com.revakovskyi.giphy.presentation.ui.theme.dimens
 import com.revakovskyi.giphy.presentation.widgets.OutlinedField
 import com.revakovskyi.giphy.presentation.widgets.ToolBar
 import kotlinx.coroutines.delay
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
@@ -139,7 +142,12 @@ fun GifsScreen(
                                 modifier = Modifier
                                     .padding(MaterialTheme.dimens.small)
                                     .aspectRatio(1.0f)
-                                    .clip(MaterialTheme.shapes.small),
+                                    .clip(MaterialTheme.shapes.small)
+                                    .clickable {
+                                        onOpenGifInfoScreen(
+                                            URLEncoder.encode(gif.url, StandardCharsets.UTF_8.toString())
+                                        )
+                                    },
                                 contentScale = ContentScale.Crop,
                                 painter = rememberAsyncImagePainter(
                                     ImageRequest.Builder(LocalContext.current)
