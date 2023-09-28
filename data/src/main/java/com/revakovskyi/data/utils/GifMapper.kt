@@ -8,6 +8,10 @@ internal fun GifEntity.mapToGif(): Gif {
     return Gif(url = this.url)
 }
 
+internal fun Data.mapToGif(): Gif {
+    return Gif(url = this.images.original.url)
+}
+
 internal fun Data.mapToGifEntity(): GifEntity {
     return GifEntity(url = this.images.original.url)
 }

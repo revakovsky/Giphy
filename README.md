@@ -18,3 +18,7 @@ Test task to create an application for displaying GIF animations from the Giphy 
 - Coroutines
 - Retrofit2 + OkHttp
 - Room
+- Swipe Refresh
+- Coil
+- Input text validation
+- Landscape/Portrait screen orientation

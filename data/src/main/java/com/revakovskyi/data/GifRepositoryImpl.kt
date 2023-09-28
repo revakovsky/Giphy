@@ -52,18 +52,6 @@ internal class GifRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun provideSearchedGifs(query: String): DataResult<List<Gif>> {
-        return try {
-            val searchedGifs = apiService.getGifsByQuery(query = query)
-            processRemoteData(searchedGifs.data)
-        } catch (e: Exception) {
-            DataResult.Error(
-                data = null,
-                message = exceptionHandler.handleException(e)
-            )
-        }
-    }
-
     private suspend fun processRemoteData(remoteData: List<Data>): DataResult.Success<List<Gif>> {
         val gifEntities = remoteData.map { it.mapToGifEntity() }
 
@@ -73,6 +61,19 @@ internal class GifRepositoryImpl @Inject constructor(
         }
         val gifs = dao.provideGifEntities().map { it.mapToGif() }
         return DataResult.Success(gifs)
+    }
+
+    override suspend fun provideSearchedGifs(query: String): DataResult<List<Gif>> {
+        return try {
+            val searchedGifs = apiService.getGifsByQuery(query = query)
+            val gifs = searchedGifs.data.map { it.mapToGif() }
+            DataResult.Success(gifs)
+        } catch (e: Exception) {
+            DataResult.Error(
+                data = null,
+                message = exceptionHandler.handleException(e)
+            )
+        }
     }
 
 }

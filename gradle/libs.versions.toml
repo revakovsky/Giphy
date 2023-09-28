@@ -31,7 +31,6 @@ ver_Material                = "1.9.0"
 ver_ActivityCompose         = "1.7.2"
 ver_ComposeBom              = "2023.09.01"
 ver_NavigationCompose       = "2.7.3"
-ver_Coil                    = "2.4.0"
 
 # Tests
 ver_JUnit                   = "4.13.2"
@@ -60,6 +59,12 @@ ver_Gson                    = "2.10.1"
 
 #Lottie animations
 ver_Lottie                  = "6.0.1"
+
+# Swipe Refresh
+ver_SwipeRefresh            = "0.24.13-rc"
+
+# Coil
+ver_Coil                    = "2.4.0"
 
 # --------------------------------------------------------------------------------------------------
 
@@ -137,6 +142,13 @@ network-gson               = { module = "com.google.code.gson:gson", version.ref
 #Lottie animations
 lottie                     = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "ver_Lottie" }
 
+# Swipe Refresh
+swipeRefresh               = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "ver_SwipeRefresh" }
+
+# Coil
+coil-compose               = { group = "io.coil-kt", name = "coil-compose", version.ref = "ver_Coil" }
+coil-gif                   = { group = "io.coil-kt", name = "coil-gif", version.ref = "ver_Coil" }
+
 # --------------------------------------------------------------------------------------------------
 
 
@@ -192,4 +204,9 @@ room = [
 coroutines = [
     "coroutines-android",
     "coroutines-core"
+]
+
+coil = [
+    "coil-compose",
+    "coil-gif"
 ]

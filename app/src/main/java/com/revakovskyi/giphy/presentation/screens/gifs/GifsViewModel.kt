@@ -9,6 +9,8 @@ import com.revakovskyi.domain.models.Gif
 import com.revakovskyi.domain.useCases.GetSearchedGifsUseCase
 import com.revakovskyi.domain.useCases.GetTrendingGifsUseCase
 import com.revakovskyi.domain.util.DataResult
+import com.revakovskyi.giphy.core.QueryManager
+import com.revakovskyi.giphy.core.Status
 import com.revakovskyi.giphy.presentation.models.mapToGifUi
 import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsEvent
 import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsState
@@ -24,15 +26,18 @@ import javax.inject.Inject
 class GifsViewModel @Inject constructor(
     private val getTrendingGifsUseCase: GetTrendingGifsUseCase,
     private val getSearchedGifsUseCase: GetSearchedGifsUseCase,
+    private val queryManager: QueryManager,
 ) : ViewModel() {
 
     private var searchJob: Job? = null
     var state by mutableStateOf(GifsState())
         private set
 
+    private var query = ""
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            getTrendingGifs(shouldRefreshGifs = true)
+            getTrendingGifs(shouldRefreshGifs = false)
         }
     }
 
@@ -40,29 +45,58 @@ class GifsViewModel @Inject constructor(
         when (event) {
             is GifsEvent.ProvideGifsByQuery -> getSearchedGifs(event.query)
             GifsEvent.RefreshGifs -> getTrendingGifs(shouldRefreshGifs = true)
+            GifsEvent.OnBackButtonPressed -> chooseAction()
             GifsEvent.ResetState -> state = GifsState()
         }
     }
 
     private fun getTrendingGifs(shouldRefreshGifs: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) { state = state.copy(isLoading = true) }
+            withContext(Dispatchers.Main) {
+                query = ""
+                state = state.copy(gifs = emptyList(), isLoading = true, enteredQuery = query)
+            }
             val dataResult = getTrendingGifsUseCase(shouldRefreshGifs)
             processDataResult(dataResult)
         }
     }
 
-    private fun getSearchedGifs(query: String) {
-        if (query.length > 1) {
-            searchJob?.cancel()
-            searchJob = viewModelScope.launch(Dispatchers.IO) {
-                delay(500L)
-                withContext(Dispatchers.Main) { state = state.copy(isLoading = true) }
-                val dataResult = getSearchedGifsUseCase(query)
-                processDataResult(dataResult)
-            }
+    private fun getSearchedGifs(enteredQuery: String) {
+        query = checkQueryForEmptinessAndGiveItBack(enteredQuery)
+
+        if (query.isEmpty()) showTrendingGifs()
+        else {
+            val status = verifyQueryForCorrectSpelling(query)
+            if (status == Status.Correct) startSearchingGifs(query)
         }
-        if (query.isEmpty()) getTrendingGifs(shouldRefreshGifs = false)
+    }
+
+    private fun checkQueryForEmptinessAndGiveItBack(enteredQuery: String): String {
+        val query = if (enteredQuery.startsWith(" ") || enteredQuery.isEmpty()) ""
+        else enteredQuery
+        state = state.copy(enteredQuery = query)
+        return query
+    }
+
+    private fun showTrendingGifs() {
+        state = state.copy(queryVerificationStatus = Status.Neutral)
+        getTrendingGifs(shouldRefreshGifs = false)
+    }
+
+    private fun verifyQueryForCorrectSpelling(query: String): Status {
+        val status = queryManager.verifyQuery(query)
+        state = state.copy(queryVerificationStatus = status)
+        return status
+    }
+
+    private fun startSearchingGifs(query: String) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch(Dispatchers.IO) {
+            delay(500L)
+            withContext(Dispatchers.Main) { state = state.copy(isLoading = true) }
+            val dataResult = getSearchedGifsUseCase(query)
+            processDataResult(dataResult)
+        }
     }
 
     private suspend fun processDataResult(dataResult: DataResult<List<Gif>>) {
@@ -82,6 +116,14 @@ class GifsViewModel @Inject constructor(
 
             }
         }
+    }
+
+    private fun chooseAction() {
+        if (query.isNotEmpty()) {
+            query = ""
+            state = state.copy(enteredQuery = query, queryVerificationStatus = Status.Neutral)
+            getTrendingGifs(shouldRefreshGifs = false)
+        } else state = state.copy(shouldCloseTheApp = true)
     }
 
 }

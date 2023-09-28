@@ -20,6 +20,7 @@ data class Dimens(
 
     val lottieAnimationsSize: Dp = 250.dp,
     val buttonWidth: Dp = 200.dp,
+    val gifMinSize: Dp = 100.dp,
 )
 
 val LocalDimens = compositionLocalOf { Dimens() }
