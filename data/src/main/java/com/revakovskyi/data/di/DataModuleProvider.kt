@@ -2,6 +2,7 @@ package com.revakovskyi.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.revakovskyi.data.BuildConfig
 import com.revakovskyi.data.local.GifDataBase
 import com.revakovskyi.data.remote.ApiService
 import dagger.Module
@@ -31,7 +32,7 @@ internal class DataModuleProvider {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(ApiService.provideBaseUrl())
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
             .build()
