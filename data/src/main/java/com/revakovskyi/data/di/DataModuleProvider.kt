@@ -24,8 +24,12 @@ internal class DataModuleProvider {
     @Provides
     @Singleton
     fun provideApiService(): ApiService {
-        val loggingInterceptor = HttpLoggingInterceptor()
-            .apply { level = HttpLoggingInterceptor.Level.BODY }
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+            setLevel(
+                if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                else HttpLoggingInterceptor.Level.NONE
+            )
+        }
 
         val httpClient = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)

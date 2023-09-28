@@ -45,8 +45,8 @@ class GifsViewModel @Inject constructor(
     }
 
     private fun getTrendingGifs(shouldRefreshGifs: Boolean) {
-        state = state.copy(isLoading = true)
         viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main) { state = state.copy(isLoading = true) }
             val dataResult = getTrendingGifsUseCase(shouldRefreshGifs)
             processDataResult(dataResult)
         }
