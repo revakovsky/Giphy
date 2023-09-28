@@ -2,7 +2,7 @@ package com.revakovskyi.giphy.presentation.models
 
 import com.revakovskyi.domain.models.Gif
 
-internal data class GifUi(
+data class GifUi(
     val url: String,
 )
 

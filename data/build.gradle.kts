@@ -55,8 +55,6 @@ dependencies {
 
     // Android
     implementation(libs.android.coreKtx)
-    implementation(libs.android.appcompat)
-    implementation(libs.android.material)
 
     // Room
     implementation(libs.bundles.room)

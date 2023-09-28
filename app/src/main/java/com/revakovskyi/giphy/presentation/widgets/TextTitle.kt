@@ -10,7 +10,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.revakovskyi.giphy.presentation.ui.theme.AppTypography
 
 @Composable
-internal fun TextTitle(
+fun TextTitle(
     modifier: Modifier = Modifier,
     text: String,
     style: TextStyle = AppTypography.titleMedium,

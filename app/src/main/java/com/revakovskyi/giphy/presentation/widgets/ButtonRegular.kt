@@ -23,7 +23,7 @@ import com.revakovskyi.giphy.presentation.ui.theme.lightTertiary
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun ButtonRegular(
+fun ButtonRegular(
     buttonText: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
