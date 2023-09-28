@@ -17,9 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import com.revakovskyi.giphy.presentation.ui.theme.darkTertiaryContainer
 import com.revakovskyi.giphy.presentation.ui.theme.dimens
-import com.revakovskyi.giphy.presentation.ui.theme.lightTertiary
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -30,8 +28,8 @@ fun ButtonRegular(
     enabled: Boolean = true,
     backgroundGradient: Brush = Brush.horizontalGradient(
         colors = listOf(
-            darkTertiaryContainer,
-            lightTertiary
+            MaterialTheme.colorScheme.tertiaryContainer,
+            MaterialTheme.colorScheme.tertiary,
         )
     ),
     bringIntoViewRequester: BringIntoViewRequester = BringIntoViewRequester(),

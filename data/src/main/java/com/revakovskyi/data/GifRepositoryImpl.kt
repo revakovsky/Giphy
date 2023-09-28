@@ -1,6 +1,5 @@
 package com.revakovskyi.data
 
-import android.content.Context
 import com.revakovskyi.data.local.GifDataBase
 import com.revakovskyi.data.remote.ApiService
 import com.revakovskyi.data.remote.dto.Data
@@ -10,11 +9,9 @@ import com.revakovskyi.data.utils.mapToGifEntity
 import com.revakovskyi.domain.models.Gif
 import com.revakovskyi.domain.repository.GifRepository
 import com.revakovskyi.domain.util.DataResult
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 internal class GifRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val apiService: ApiService,
     gifDataBase: GifDataBase,
     private val exceptionHandler: ExceptionHandler,
