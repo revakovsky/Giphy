@@ -1,4 +1,4 @@
-package com.revakovskyi.data.mapper
+package com.revakovskyi.data.utils
 
 import com.revakovskyi.data.local.GifEntity
 import com.revakovskyi.data.remote.dto.Data

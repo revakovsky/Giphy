@@ -14,6 +14,8 @@ import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsEvent
 import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -24,35 +26,43 @@ class GifsViewModel @Inject constructor(
     private val getSearchedGifsUseCase: GetSearchedGifsUseCase,
 ) : ViewModel() {
 
+    private var searchJob: Job? = null
     var state by mutableStateOf(GifsState())
         private set
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            getTrendingGifs(shouldRefreshGifs = false)
+            getTrendingGifs(shouldRefreshGifs = true)
         }
     }
 
     fun onEvent(event: GifsEvent) {
-        viewModelScope.launch(Dispatchers.IO) {
-            when (event) {
-                is GifsEvent.ProvideGifsByQuery -> getSearchedGifs(event.query)
-                GifsEvent.RefreshGifs -> getTrendingGifs(shouldRefreshGifs = true)
-                GifsEvent.ResetState -> withContext(Dispatchers.Main) { state = GifsState() }
-            }
+        when (event) {
+            is GifsEvent.ProvideGifsByQuery -> getSearchedGifs(event.query)
+            GifsEvent.RefreshGifs -> getTrendingGifs(shouldRefreshGifs = true)
+            GifsEvent.ResetState -> state = GifsState()
         }
     }
 
-    private suspend fun getTrendingGifs(shouldRefreshGifs: Boolean) {
-        withContext(Dispatchers.Main) { state = state.copy(isLoading = true) }
-        val dataResult = getTrendingGifsUseCase(shouldRefreshGifs)
-        processDataResult(dataResult)
+    private fun getTrendingGifs(shouldRefreshGifs: Boolean) {
+        state = state.copy(isLoading = true)
+        viewModelScope.launch(Dispatchers.IO) {
+            val dataResult = getTrendingGifsUseCase(shouldRefreshGifs)
+            processDataResult(dataResult)
+        }
     }
 
-    private suspend fun getSearchedGifs(query: String) {
-        withContext(Dispatchers.Main) { state = state.copy(isLoading = true) }
-        val dataResult = getSearchedGifsUseCase(query)
-        processDataResult(dataResult)
+    private fun getSearchedGifs(query: String) {
+        if (query.length > 1) {
+            searchJob?.cancel()
+            searchJob = viewModelScope.launch(Dispatchers.IO) {
+                delay(500L)
+                withContext(Dispatchers.Main) { state = state.copy(isLoading = true) }
+                val dataResult = getSearchedGifsUseCase(query)
+                processDataResult(dataResult)
+            }
+        }
+        if (query.isEmpty()) getTrendingGifs(shouldRefreshGifs = false)
     }
 
     private suspend fun processDataResult(dataResult: DataResult<List<Gif>>) {
