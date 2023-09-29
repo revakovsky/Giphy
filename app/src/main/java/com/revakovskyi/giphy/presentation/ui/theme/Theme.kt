@@ -4,55 +4,12 @@ import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-
-
-private val LightColors = lightColorScheme(
-    primary = lightPrimary,
-    onPrimary = lightOnPrimary,
-    primaryContainer = lightPrimaryContainer,
-    onPrimaryContainer = lightOnPrimaryContainer,
-
-    secondary = lightSecondary,
-    onSecondary = lightOnSecondary,
-    secondaryContainer = lightSecondaryContainer,
-    onSecondaryContainer = lightOnSecondaryContainer,
-
-    tertiary = lightTertiary,
-    onTertiary = lightOnTertiary,
-    tertiaryContainer = lightTertiaryContainer,
-    onTertiaryContainer = lightOnTertiaryContainer,
-
-    error = lightError,
-    errorContainer = lightErrorContainer,
-    onError = lightOnError,
-    onErrorContainer = lightOnErrorContainer,
-
-    background = lightBackground,
-    onBackground = lightOnBackground,
-
-    surface = lightSurface,
-    onSurface = lightOnSurface,
-    surfaceVariant = lightSurfaceVariant,
-    onSurfaceVariant = lightOnSurfaceVariant,
-    surfaceTint = lightSurfaceTint,
-
-    outline = lightOutline,
-    outlineVariant = lightOutlineVariant,
-
-    inverseOnSurface = lightInverseOnSurface,
-    inverseSurface = lightInverseSurface,
-    inversePrimary = lightInversePrimary,
-
-    scrim = lightScrim,
-)
-
 
 private val DarkColors = darkColorScheme(
     primary = darkPrimary,

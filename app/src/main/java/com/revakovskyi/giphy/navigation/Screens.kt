@@ -2,9 +2,9 @@ package com.revakovskyi.giphy.navigation
 
 import com.revakovskyi.giphy.navigation.Screens.GifInfoScreen.route
 
-internal const val GIF_ID = "id"
+internal const val GIF_URL = "url"
 
-internal sealed class Screens(
+sealed class Screens(
     val route: String,
     val arguments: (String) -> String = { "" },
 ) {
@@ -15,8 +15,8 @@ internal sealed class Screens(
     object SplashScreen : Screens("splash_screen")
     object GifsScreen : Screens("gifs_screen")
     object GifInfoScreen : Screens(
-        route = "gif_info_screen/{$GIF_ID}",
-        arguments = { id -> route.replace(oldValue = "{$GIF_ID}", newValue = id) }
+        route = "gif_info_screen/{$GIF_URL}",
+        arguments = { url -> route.replace(oldValue = "{$GIF_URL}", newValue = url) }
     )
 
 }

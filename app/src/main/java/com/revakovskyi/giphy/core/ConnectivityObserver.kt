@@ -2,7 +2,7 @@ package com.revakovskyi.giphy.core
 
 import kotlinx.coroutines.flow.Flow
 
-internal interface ConnectivityObserver {
+interface ConnectivityObserver {
 
     fun observeConnectivity(): Flow<Status>
 

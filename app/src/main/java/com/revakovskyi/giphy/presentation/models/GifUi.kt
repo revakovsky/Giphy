@@ -1,5 +1,9 @@
 package com.revakovskyi.giphy.presentation.models
 
-internal data class GifUi(
-    val id: Int? = null,    // TODO: correct this later
+import com.revakovskyi.domain.models.Gif
+
+data class GifUi(
+    val url: String,
 )
+
+internal fun Gif.mapToGifUi(): GifUi = GifUi(url = this.url)

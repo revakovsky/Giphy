@@ -20,7 +20,7 @@ import com.revakovskyi.giphy.presentation.screens.splash.mvi.SplashState
 import kotlinx.coroutines.delay
 
 @Composable
-internal fun SplashScreen(
+fun SplashScreen(
     onOpenGifsScreen: () -> Unit,
     onEvent: (SplashEvent) -> Unit,
     state: SplashState,

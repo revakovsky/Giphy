@@ -26,7 +26,7 @@ import com.revakovskyi.giphy.presentation.widgets.TextTitle
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun NoInternetConnection(
+fun NoInternetConnection(
     modifier: Modifier = Modifier,
     onOpenSettings: () -> Unit,
 ) {

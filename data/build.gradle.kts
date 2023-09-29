@@ -13,13 +13,8 @@ android {
 
         testInstrumentationRunner = libs.versions.testInstrumentationRunner.get()
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true"
-                )
-            }
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
         }
     }
 
@@ -30,6 +25,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField(type = "String", name = "BASE_URL", value = "\"https://api.giphy.com/v1/gifs/\"")
+            buildConfigField(type = "String", name = "API_KEY", value = "\"3FQrv9Cok9ki6pwej7g8G0l0LyJqQwV9\"")
         }
         release {
             isMinifyEnabled = true
@@ -46,6 +44,9 @@ android {
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -55,8 +56,6 @@ dependencies {
 
     // Android
     implementation(libs.android.coreKtx)
-    implementation(libs.android.appcompat)
-    implementation(libs.android.material)
 
     // Room
     implementation(libs.bundles.room)
@@ -68,6 +67,10 @@ dependencies {
     implementation(libs.bundles.retrofit2)
 
     // Coroutines
-    implementation(libs.coroutines.android)
+    implementation(libs.bundles.coroutines)
+
+    // Hilt
+    implementation(libs.bundles.hilt)
+    ksp(libs.hilt.compiler)
 
 }

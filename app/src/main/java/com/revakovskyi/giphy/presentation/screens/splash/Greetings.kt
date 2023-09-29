@@ -21,7 +21,7 @@ import com.revakovskyi.giphy.R
 import com.revakovskyi.giphy.presentation.ui.theme.dimens
 
 @Composable
-internal fun Greetings(
+fun Greetings(
     modifier: Modifier = Modifier,
     onGreetingsProgressChange: (Float) -> Unit,
 ) {

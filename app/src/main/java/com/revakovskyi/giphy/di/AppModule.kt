@@ -2,18 +2,21 @@ package com.revakovskyi.giphy.di
 
 import com.revakovskyi.giphy.core.ConnectivityObserver
 import com.revakovskyi.giphy.core.NetworkConnectivityObserver
+import com.revakovskyi.giphy.core.QueryManager
+import com.revakovskyi.giphy.core.QueryManagerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ViewModelComponent
 
 @Module
-@InstallIn(SingletonComponent::class)
-internal abstract class MainModule {
+@InstallIn(ViewModelComponent::class)
+internal abstract class AppModule {
 
     @Binds
-    @Singleton
     abstract fun bindConnectivityObserver(networkConnectivityObserver: NetworkConnectivityObserver): ConnectivityObserver
+
+    @Binds
+    abstract fun bindQueryManager(queryManagerImpl: QueryManagerImpl): QueryManager
 
 }

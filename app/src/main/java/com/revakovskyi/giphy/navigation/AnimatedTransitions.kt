@@ -16,7 +16,7 @@ import androidx.navigation.compose.composable
 private const val DEFAULT_ANIMATION_DURATION = 600
 private const val FADE_DURATION = 800
 
-internal fun NavGraphBuilder.composableWithAnimatedTransition(
+fun NavGraphBuilder.composableWithAnimatedTransition(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     enterAndExitVertically: Boolean = false,

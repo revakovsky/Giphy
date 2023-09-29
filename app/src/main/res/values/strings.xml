@@ -4,5 +4,13 @@
     <string name="oops">Oops..</string>
     <string name="connection_was_lost">Looks like the Internet connection was lost</string>
     <string name="open_settings">Open Settings</string>
+    <string name="something_went_wrong">Something went wrong while fetching the data…</string>
+    <string name="back">Back</string>
+    <string name="input_a_search_query">Input a search query…</string>
+    <string name="start_typing">Start typing to see the results…</string>
+    <string name="incorrect_input">Incorrect input</string>
+    <string name="gif_image">GIF image</string>
+    <string name="nothing_was_found">Nothing was found :( It may be an internet connection problem</string>
+    <string name="failed_to_load_link">Something went wrong :( Failed to load link</string>
 
 </resources>

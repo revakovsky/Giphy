@@ -1,10 +1,13 @@
 package com.revakovskyi.giphy.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import coil.ImageLoader
 import com.revakovskyi.giphy.core.sharedViewModel
 import com.revakovskyi.giphy.presentation.screens.gif_info.GifInfoScreen
 import com.revakovskyi.giphy.presentation.screens.gifs.GifsScreen
@@ -13,7 +16,7 @@ import com.revakovskyi.giphy.presentation.screens.splash.SplashScreen
 import com.revakovskyi.giphy.presentation.screens.splash.SplashViewModel
 
 @Composable
-internal fun AppNavGraph() {
+fun AppNavGraph(imageLoader: ImageLoader) {
 
     val navController = rememberNavController()
 
@@ -46,13 +49,26 @@ internal fun AppNavGraph() {
             composableWithAnimatedTransition(route = Screens.GifsScreen.route) { _, navBackStackEntry ->
                 val viewModel: GifsViewModel = navBackStackEntry.sharedViewModel(navController)
 
-                GifsScreen()
+                GifsScreen(
+                    onOpenGifInfoScreen = { url ->
+                        navController.navigate(Screens.GifInfoScreen.arguments(url))
+                    },
+                    onEvent = { event -> viewModel.onEvent(event) },
+                    state = viewModel.state,
+                    imageLoader
+                )
             }
 
-            composableWithAnimatedTransition(route = Screens.GifInfoScreen.route) { _, navBackStackEntry ->
-                val viewModel: GifsViewModel = navBackStackEntry.sharedViewModel(navController)
+            composableWithAnimatedTransition(
+                route = Screens.GifInfoScreen.route,
+                arguments = listOf(navArgument(GIF_URL) { type = NavType.StringType })
+            ) { _, navBackStackEntry ->
 
-                GifInfoScreen()
+                GifInfoScreen(
+                    url = navBackStackEntry.arguments?.getString(GIF_URL) ?: "",
+                    onBackToPreviousScreen = { navController.popBackStack() },
+                    imageLoader
+                )
             }
 
         }

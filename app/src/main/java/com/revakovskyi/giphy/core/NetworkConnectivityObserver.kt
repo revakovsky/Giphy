@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-internal class NetworkConnectivityObserver @Inject constructor(
+class NetworkConnectivityObserver @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : ConnectivityObserver {
 

@@ -93,4 +93,10 @@ dependencies {
     // Lottie animations
     implementation(libs.lottie)
 
+    // Swipe Refresh
+    implementation(libs.swipeRefresh)
+
+    // Coil
+    implementation(libs.bundles.coil)
+
 }
