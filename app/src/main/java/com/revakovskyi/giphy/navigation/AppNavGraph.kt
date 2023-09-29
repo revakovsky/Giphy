@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import coil.ImageLoader
 import com.revakovskyi.giphy.core.sharedViewModel
 import com.revakovskyi.giphy.presentation.screens.gif_info.GifInfoScreen
 import com.revakovskyi.giphy.presentation.screens.gifs.GifsScreen
@@ -15,7 +16,7 @@ import com.revakovskyi.giphy.presentation.screens.splash.SplashScreen
 import com.revakovskyi.giphy.presentation.screens.splash.SplashViewModel
 
 @Composable
-fun AppNavGraph() {
+fun AppNavGraph(imageLoader: ImageLoader) {
 
     val navController = rememberNavController()
 
@@ -53,7 +54,8 @@ fun AppNavGraph() {
                         navController.navigate(Screens.GifInfoScreen.arguments(url))
                     },
                     onEvent = { event -> viewModel.onEvent(event) },
-                    state = viewModel.state
+                    state = viewModel.state,
+                    imageLoader
                 )
             }
 
@@ -64,7 +66,8 @@ fun AppNavGraph() {
 
                 GifInfoScreen(
                     url = navBackStackEntry.arguments?.getString(GIF_URL) ?: "",
-                    onBackToPreviousScreen = { navController.popBackStack() }
+                    onBackToPreviousScreen = { navController.popBackStack() },
+                    imageLoader
                 )
             }
 

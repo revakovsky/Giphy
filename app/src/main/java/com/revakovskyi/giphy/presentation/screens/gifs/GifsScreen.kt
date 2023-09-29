@@ -2,13 +2,9 @@ package com.revakovskyi.giphy.presentation.screens.gifs
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
-import android.os.Build.VERSION.SDK_INT
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -25,15 +21,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
-import coil.compose.rememberAsyncImagePainter
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.memory.MemoryCache
-import coil.request.ImageRequest
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -41,11 +30,10 @@ import com.revakovskyi.giphy.R
 import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsEvent
 import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsState
 import com.revakovskyi.giphy.presentation.ui.theme.dimens
+import com.revakovskyi.giphy.presentation.widgets.CoilImage
 import com.revakovskyi.giphy.presentation.widgets.OutlinedField
 import com.revakovskyi.giphy.presentation.widgets.ToolBar
 import kotlinx.coroutines.delay
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
@@ -55,6 +43,7 @@ fun GifsScreen(
     onOpenGifInfoScreen: (String) -> Unit,
     onEvent: (GifsEvent) -> Unit,
     state: GifsState,
+    imageLoader: ImageLoader,
 ) {
 
     val context = LocalContext.current
@@ -62,18 +51,6 @@ fun GifsScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
     val swipeRefreshState = rememberSwipeRefreshState(state.isLoading)
-
-    val imageLoader = ImageLoader.Builder(context)
-        .components {
-            if (SDK_INT >= 28) add(ImageDecoderDecoder.Factory())
-            else add(GifDecoder.Factory())
-        }
-        .memoryCache {
-            MemoryCache.Builder(context)
-                .maxSizePercent(0.25)
-                .build()
-        }
-        .build()
 
     LaunchedEffect(key1 = true) {
         (context as Activity).requestedOrientation = orientation
@@ -137,24 +114,11 @@ fun GifsScreen(
                         items(state.gifs.size) { itemIndex ->
                             val gif = state.gifs[itemIndex]
 
-                            Image(
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .padding(MaterialTheme.dimens.small)
-                                    .aspectRatio(1.0f)
-                                    .clip(MaterialTheme.shapes.small)
-                                    .clickable {
-                                        onOpenGifInfoScreen(
-                                            URLEncoder.encode(gif.url, StandardCharsets.UTF_8.toString())
-                                        )
-                                    },
-                                contentScale = ContentScale.Crop,
-                                painter = rememberAsyncImagePainter(
-                                    ImageRequest.Builder(LocalContext.current)
-                                        .data(gif.url)
-                                        .build(),
-                                    imageLoader = imageLoader
-                                )
+                            CoilImage(
+                                imageLoader = imageLoader,
+                                url = gif.url,
+                                onImageClick = { onOpenGifInfoScreen(it) },
+                                clickable = true
                             )
 
                         }
