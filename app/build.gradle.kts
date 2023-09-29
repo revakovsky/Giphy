@@ -31,7 +31,7 @@ android {
             )
         }
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -60,6 +60,10 @@ android {
 
 dependencies {
 
+    // Modules
+    implementation(project(path = ":data"))
+    implementation(project(path = ":domain"))
+
     // Android
     implementation(libs.android.coreKtx)
     implementation(libs.compose.activityCompose)
@@ -79,11 +83,20 @@ dependencies {
     // Lifecycle
     implementation(libs.bundles.lifecycle)
 
-    // Coroutine
-    implementation(libs.coroutines)
+    // Coroutines
+    implementation(libs.bundles.coroutines)
 
     // Hilt
     implementation(libs.bundles.hilt)
     ksp(libs.hilt.compiler)
+
+    // Lottie animations
+    implementation(libs.lottie)
+
+    // Swipe Refresh
+    implementation(libs.swipeRefresh)
+
+    // Coil
+    implementation(libs.bundles.coil)
 
 }
