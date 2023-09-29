@@ -54,10 +54,9 @@ private val DarkColors = darkColorScheme(
 @Composable
 fun GiphyTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable() () -> Unit,
+    content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
-
     val colorScheme = DarkColors
 
     if (!view.isInEditMode) {

@@ -19,22 +19,15 @@ private const val FADE_DURATION = 800
 fun NavGraphBuilder.composableWithAnimatedTransition(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
-    enterAndExitVertically: Boolean = false,
     content: @Composable (AnimatedContentScope, NavBackStackEntry) -> Unit,
 ) {
 
     composable(
         route = route,
-        enterTransition = {
-            if (enterAndExitVertically) enterFromBottomToTop()
-            else enterFromRightToLeft()
-        },
+        enterTransition = { enterFromRightToLeft() },
         exitTransition = { exitFromRightToLeft() },
         popEnterTransition = { popEnterFromLeftToRight() },
-        popExitTransition = {
-            if (enterAndExitVertically) exitFromTopToBottom()
-            else popExitFromLeftToRight()
-        },
+        popExitTransition = { popExitFromLeftToRight() },
         arguments = arguments
     ) {
         content(this, it)
@@ -91,36 +84,6 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterFromLeftToRight() 
 fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitFromLeftToRight() =
     slideOutOfContainer(
         towards = AnimatedContentTransitionScope.SlideDirection.End,
-        animationSpec = tween(
-            durationMillis = DEFAULT_ANIMATION_DURATION,
-            easing = FastOutLinearInEasing
-        ),
-    ) + fadeOut(
-        animationSpec = tween(
-            durationMillis = FADE_DURATION,
-            easing = FastOutLinearInEasing
-        )
-    )
-
-
-fun AnimatedContentTransitionScope<NavBackStackEntry>.enterFromBottomToTop() =
-    slideIntoContainer(
-        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Up,
-        animationSpec = tween(
-            durationMillis = DEFAULT_ANIMATION_DURATION,
-            easing = FastOutSlowInEasing
-        )
-    ) + fadeIn(
-        animationSpec = tween(
-            durationMillis = FADE_DURATION,
-            easing = FastOutSlowInEasing
-        )
-    )
-
-
-fun AnimatedContentTransitionScope<NavBackStackEntry>.exitFromTopToBottom() =
-    slideOutOfContainer(
-        towards = AnimatedContentTransitionScope.SlideDirection.Companion.Down,
         animationSpec = tween(
             durationMillis = DEFAULT_ANIMATION_DURATION,
             easing = FastOutLinearInEasing

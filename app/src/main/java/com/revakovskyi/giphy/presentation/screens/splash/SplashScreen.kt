@@ -55,7 +55,6 @@ fun SplashScreen(
                 onOpenSettings = { settingsLauncher.launch(Intent(Settings.ACTION_WIFI_SETTINGS)) }
             )
         }
-
         else -> Unit
     }
 

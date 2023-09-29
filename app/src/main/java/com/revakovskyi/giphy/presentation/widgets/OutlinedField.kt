@@ -27,7 +27,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import com.revakovskyi.giphy.R
-import com.revakovskyi.giphy.core.Status
+import com.revakovskyi.giphy.core.QueryManager
 import com.revakovskyi.giphy.presentation.ui.theme.dimens
 import kotlinx.coroutines.launch
 
@@ -42,7 +42,7 @@ fun OutlinedField(
     onValueChange: (String) -> Unit,
     padding: Dp = MaterialTheme.dimens.medium,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onBackground),
-    status: Status = Status.Neutral,
+    status: QueryManager.Status = QueryManager.Status.Neutral,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     imeAction: ImeAction = ImeAction.Done,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -84,13 +84,13 @@ fun OutlinedField(
             },
         textStyle = textStyle,
         supportingText = {
-            if (status == Status.Incorrect) Text(
+            if (status == QueryManager.Status.Incorrect) Text(
                 text = stringResource(R.string.incorrect_input),
                 color = MaterialTheme.colorScheme.errorContainer,
                 style = MaterialTheme.typography.bodySmall
             )
         },
-        isError = status == Status.Incorrect,
+        isError = status == QueryManager.Status.Incorrect,
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,

@@ -10,7 +10,6 @@ import com.revakovskyi.domain.useCases.GetSearchedGifsUseCase
 import com.revakovskyi.domain.useCases.GetTrendingGifsUseCase
 import com.revakovskyi.domain.util.DataResult
 import com.revakovskyi.giphy.core.QueryManager
-import com.revakovskyi.giphy.core.Status
 import com.revakovskyi.giphy.presentation.models.mapToGifUi
 import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsEvent
 import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsState
@@ -67,7 +66,7 @@ class GifsViewModel @Inject constructor(
         if (query.isEmpty()) showTrendingGifs()
         else {
             val status = verifyQueryForCorrectSpelling(query)
-            if (status == Status.Correct) startSearchingGifs(query)
+            if (status == QueryManager.Status.Correct) startSearchingGifs(query)
         }
     }
 
@@ -79,11 +78,11 @@ class GifsViewModel @Inject constructor(
     }
 
     private fun showTrendingGifs() {
-        state = state.copy(queryVerificationStatus = Status.Neutral)
+        state = state.copy(queryVerificationStatus = QueryManager.Status.Neutral)
         getTrendingGifs(shouldRefreshGifs = false)
     }
 
-    private fun verifyQueryForCorrectSpelling(query: String): Status {
+    private fun verifyQueryForCorrectSpelling(query: String): QueryManager.Status {
         val status = queryManager.verifyQuery(query)
         state = state.copy(queryVerificationStatus = status)
         return status
@@ -121,7 +120,10 @@ class GifsViewModel @Inject constructor(
     private fun chooseAction() {
         if (query.isNotEmpty()) {
             query = ""
-            state = state.copy(enteredQuery = query, queryVerificationStatus = Status.Neutral)
+            state = state.copy(
+                enteredQuery = query,
+                queryVerificationStatus = QueryManager.Status.Neutral
+            )
             getTrendingGifs(shouldRefreshGifs = false)
         } else state = state.copy(shouldCloseTheApp = true)
     }

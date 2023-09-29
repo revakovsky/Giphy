@@ -2,7 +2,7 @@ package com.revakovskyi.giphy.navigation
 
 import com.revakovskyi.giphy.navigation.Screens.GifInfoScreen.route
 
-internal const val GIF_URL = "url"
+const val GIF_URL = "url"
 
 sealed class Screens(
     val route: String,

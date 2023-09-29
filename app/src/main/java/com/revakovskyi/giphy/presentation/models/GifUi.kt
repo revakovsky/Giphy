@@ -6,4 +6,4 @@ data class GifUi(
     val url: String,
 )
 
-internal fun Gif.mapToGifUi(): GifUi = GifUi(url = this.url)
+fun Gif.mapToGifUi(): GifUi = GifUi(url = this.url)

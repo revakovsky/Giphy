@@ -12,8 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
 import coil.compose.SubcomposeAsyncImage
+import com.revakovskyi.giphy.R
 import com.revakovskyi.giphy.presentation.ui.theme.dimens
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -25,6 +27,7 @@ fun CoilImage(
     onImageClick: (String) -> Unit = { },
     clickable: Boolean = false,
 ) {
+    val context = LocalContext.current
 
     SubcomposeAsyncImage(
         model = url,
@@ -35,7 +38,7 @@ fun CoilImage(
                 )
             }
         },
-        contentDescription = null,
+        contentDescription = context.getString(R.string.gif_image),
         imageLoader = imageLoader,
         modifier = Modifier
             .padding(MaterialTheme.dimens.small)
