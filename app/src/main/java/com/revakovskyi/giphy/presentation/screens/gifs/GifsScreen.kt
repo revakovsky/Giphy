@@ -34,7 +34,6 @@ import com.revakovskyi.giphy.presentation.ui.theme.dimens
 import com.revakovskyi.giphy.presentation.widgets.CoilImage
 import com.revakovskyi.giphy.presentation.widgets.OutlinedField
 import com.revakovskyi.giphy.presentation.widgets.ToolBar
-import kotlinx.coroutines.delay
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
@@ -62,8 +61,7 @@ fun GifsScreen(
             snackbarHostState.showSnackbar(state.errorMessage)
             onEvent(GifsEvent.ResetState)
         }
-        if (state.gifsUrls.isEmpty()) {
-            delay(1000L)
+        if (state.gifsUrls?.isEmpty() == true) {
             snackbarHostState.showSnackbar(context.getString(R.string.nothing_was_found))
         }
         if (state.chosenGifUrl.isNotEmpty()) onOpenGifInfoScreen(state.chosenGifUrl)
@@ -113,17 +111,20 @@ fun GifsScreen(
                         .padding(horizontal = MaterialTheme.dimens.medium),
                     columns = GridCells.Adaptive(MaterialTheme.dimens.gifMinSize),
                     content = {
-                        items(state.gifsUrls.size) { itemIndex ->
-                            val url = state.gifsUrls[itemIndex]
+                        items(state.gifsUrls?.size ?: 0) { itemIndex ->
+                            if (state.gifsUrls != null) {
+                                val url = state.gifsUrls[itemIndex]
 
-                            CoilImage(
-                                imageLoader = imageLoader,
-                                url = url,
-                                onImageClick = { chosenGifUrl ->
-                                    onEvent(GifsEvent.OnGifClick(chosenGifUrl))
-                                },
-                                clickable = true
-                            )
+                                CoilImage(
+                                    imageLoader = imageLoader,
+                                    url = url,
+                                    onImageClick = { chosenGifUrl ->
+                                        onEvent(GifsEvent.OnGifClick(chosenGifUrl))
+                                    },
+                                    clickable = true
+                                )
+
+                            }
 
                         }
                     }

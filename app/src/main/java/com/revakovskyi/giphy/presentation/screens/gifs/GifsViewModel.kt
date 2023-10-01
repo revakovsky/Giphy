@@ -53,7 +53,7 @@ class GifsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 query = ""
-                state = state.copy(gifsUrls = emptyList(), isLoading = true, enteredQuery = query)
+                state = state.copy(isLoading = true, enteredQuery = query)
             }
             val dataResult = getTrendingGifsUseCase(shouldRefreshGifs)
             processDataResult(dataResult)
@@ -84,7 +84,11 @@ class GifsViewModel @Inject constructor(
 
     private fun verifyQueryForCorrectSpelling(query: String): QueryManager.Status {
         val status = queryManager.verifyQuery(query)
-        state = state.copy(queryVerificationStatus = status)
+        state = state.copy(
+            queryVerificationStatus = status,
+            errorMessage = "",
+            gifsUrls = if (state.gifsUrls?.isEmpty() == true) null else state.gifsUrls
+        )
         return status
     }
 
@@ -92,7 +96,9 @@ class GifsViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             delay(500L)
-            withContext(Dispatchers.Main) { state = state.copy(isLoading = true) }
+            withContext(Dispatchers.Main) {
+                state = state.copy(isLoading = true, errorMessage = "")
+            }
             val dataResult = getSearchedGifsUseCase(query)
             processDataResult(dataResult)
         }
@@ -103,9 +109,8 @@ class GifsViewModel @Inject constructor(
             state = when (dataResult) {
 
                 is DataResult.Success -> {
-                    val gifsUrls = dataResult.data ?: emptyList()
-                    if (gifsUrls.isNotEmpty()) state.copy(gifsUrls = gifsUrls, isLoading = false)
-                    else state.copy(isLoading = false)
+                    val gifsUrls = dataResult.data
+                    state.copy(gifsUrls = gifsUrls, isLoading = false)
                 }
 
                 is DataResult.Error -> {

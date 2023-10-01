@@ -3,7 +3,7 @@ package com.revakovskyi.giphy.presentation.screens.gifs.model
 import com.revakovskyi.giphy.core.QueryManager
 
 data class GifsState(
-    val gifsUrls: List<String> = emptyList(),
+    val gifsUrls: List<String>? = emptyList(),
     val isLoading: Boolean = false,
     val errorMessage: String = "",
     val enteredQuery: String = "",
