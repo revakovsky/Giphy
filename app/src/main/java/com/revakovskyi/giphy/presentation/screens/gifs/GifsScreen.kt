@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -65,6 +66,7 @@ fun GifsScreen(
             delay(1000L)
             snackbarHostState.showSnackbar(context.getString(R.string.nothing_was_found))
         }
+        if (state.chosenGifUrl.isNotEmpty()) onOpenGifInfoScreen(state.chosenGifUrl)
         if (state.shouldCloseTheApp) (context as Activity).finish()
     }
 
@@ -117,7 +119,9 @@ fun GifsScreen(
                             CoilImage(
                                 imageLoader = imageLoader,
                                 url = url,
-                                onImageClick = { onOpenGifInfoScreen(it) },
+                                onImageClick = { chosenGifUrl ->
+                                    onEvent(GifsEvent.OnGifClick(chosenGifUrl))
+                                },
                                 clickable = true
                             )
 
@@ -132,5 +136,9 @@ fun GifsScreen(
     }
 
     BackHandler { onEvent(GifsEvent.OnBackButtonPressed) }
+
+    DisposableEffect(Unit) {
+        onDispose { onEvent(GifsEvent.ResetChosenGifUrl) }
+    }
 
 }

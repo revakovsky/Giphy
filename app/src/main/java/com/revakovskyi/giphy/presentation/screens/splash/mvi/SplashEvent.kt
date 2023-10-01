@@ -4,5 +4,6 @@ sealed class SplashEvent {
 
     object CheckConnectivity : SplashEvent()
     object ResetState : SplashEvent()
+    object CloseApp : SplashEvent()
 
 }

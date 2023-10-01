@@ -28,7 +28,7 @@ fun SplashScreen(
     val context = LocalContext.current
 
     var animationProgress by remember { mutableFloatStateOf(0f) }
-    var showGreetings by remember { mutableStateOf<Boolean?>(null) }
+    var hasConnection by remember { mutableStateOf<Boolean?>(null) }
 
     val settingsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -40,15 +40,17 @@ fun SplashScreen(
         if (animationProgress == 1.0f && state.hasInternetConnection == true) onOpenGifsScreen()
     }
 
-    LaunchedEffect(key1 = state.hasInternetConnection) {
+    LaunchedEffect(key1 = state) {
+        if (state.shouldCloseApp) (context as Activity).finish()
+
         delay(200L)
-        showGreetings = when (state.hasInternetConnection) {
+        hasConnection = when (state.hasInternetConnection) {
             true -> true
             else -> false
         }
     }
 
-    when (showGreetings) {
+    when (hasConnection) {
         true -> Greetings(onGreetingsProgressChange = { animationProgress = it })
         false -> {
             NoInternetConnection(
@@ -58,7 +60,7 @@ fun SplashScreen(
         else -> Unit
     }
 
-    BackHandler { (context as Activity).finish() }
+    BackHandler { onEvent(SplashEvent.CloseApp) }
 
     DisposableEffect(Unit) {
         onDispose { onEvent(SplashEvent.ResetState) }

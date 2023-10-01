@@ -25,6 +25,7 @@ class SplashViewModel @Inject constructor(
         when (event) {
             SplashEvent.CheckConnectivity -> checkConnectivity()
             SplashEvent.ResetState -> state = SplashState()
+            SplashEvent.CloseApp -> state = state.copy(shouldCloseApp = true)
         }
     }
 

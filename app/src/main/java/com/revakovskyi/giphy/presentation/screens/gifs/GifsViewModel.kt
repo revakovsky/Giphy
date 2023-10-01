@@ -42,7 +42,9 @@ class GifsViewModel @Inject constructor(
         when (event) {
             is GifsEvent.ProvideGifsByQuery -> getSearchedGifs(event.query)
             GifsEvent.RefreshGifs -> getTrendingGifs(shouldRefreshGifs = true)
+            is GifsEvent.OnGifClick -> state = state.copy(chosenGifUrl = event.gifUrl)
             GifsEvent.OnBackButtonPressed -> chooseAction()
+            GifsEvent.ResetChosenGifUrl -> state = state.copy(chosenGifUrl = "")
             GifsEvent.ResetState -> state = GifsState()
         }
     }

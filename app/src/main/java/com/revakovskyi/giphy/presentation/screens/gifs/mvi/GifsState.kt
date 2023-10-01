@@ -9,4 +9,5 @@ data class GifsState(
     val enteredQuery: String = "",
     val queryVerificationStatus: QueryManager.Status = QueryManager.Status.Neutral,
     val shouldCloseTheApp: Boolean = false,
+    val chosenGifUrl: String = "",
 )

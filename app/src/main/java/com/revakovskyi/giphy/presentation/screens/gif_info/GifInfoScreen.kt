@@ -45,7 +45,7 @@ fun GifInfoScreen(
             contentAlignment = Alignment.Center
         ) {
 
-            CoilImage(imageLoader = imageLoader, url = url)
+            if (url.isNotEmpty()) CoilImage(imageLoader = imageLoader, url = url)
 
         }
 
