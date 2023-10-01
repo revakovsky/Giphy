@@ -5,12 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.revakovskyi.domain.models.Gif
 import com.revakovskyi.domain.useCases.GetSearchedGifsUseCase
 import com.revakovskyi.domain.useCases.GetTrendingGifsUseCase
 import com.revakovskyi.domain.util.DataResult
 import com.revakovskyi.giphy.core.QueryManager
-import com.revakovskyi.giphy.presentation.models.mapToGifUi
 import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsEvent
 import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,7 +51,7 @@ class GifsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 query = ""
-                state = state.copy(gifs = emptyList(), isLoading = true, enteredQuery = query)
+                state = state.copy(gifsUrls = emptyList(), isLoading = true, enteredQuery = query)
             }
             val dataResult = getTrendingGifsUseCase(shouldRefreshGifs)
             processDataResult(dataResult)
@@ -98,13 +96,13 @@ class GifsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun processDataResult(dataResult: DataResult<List<Gif>>) {
+    private suspend fun processDataResult(dataResult: DataResult<List<String>>) {
         withContext(Dispatchers.Main) {
             state = when (dataResult) {
 
                 is DataResult.Success -> {
-                    val gifs = dataResult.data?.map { it.mapToGifUi() } ?: emptyList()
-                    if (gifs.isNotEmpty()) state.copy(gifs = gifs, isLoading = false)
+                    val gifsUrls = dataResult.data ?: emptyList()
+                    if (gifsUrls.isNotEmpty()) state.copy(gifsUrls = gifsUrls, isLoading = false)
                     else state.copy(isLoading = false)
                 }
 

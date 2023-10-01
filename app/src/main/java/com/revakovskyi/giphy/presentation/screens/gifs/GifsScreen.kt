@@ -61,7 +61,7 @@ fun GifsScreen(
             snackbarHostState.showSnackbar(state.errorMessage)
             onEvent(GifsEvent.ResetState)
         }
-        if (state.gifs.isEmpty()) {
+        if (state.gifsUrls.isEmpty()) {
             delay(1000L)
             snackbarHostState.showSnackbar(context.getString(R.string.nothing_was_found))
         }
@@ -111,12 +111,12 @@ fun GifsScreen(
                         .padding(horizontal = MaterialTheme.dimens.medium),
                     columns = GridCells.Adaptive(MaterialTheme.dimens.gifMinSize),
                     content = {
-                        items(state.gifs.size) { itemIndex ->
-                            val gif = state.gifs[itemIndex]
+                        items(state.gifsUrls.size) { itemIndex ->
+                            val url = state.gifsUrls[itemIndex]
 
                             CoilImage(
                                 imageLoader = imageLoader,
-                                url = gif.url,
+                                url = url,
                                 onImageClick = { onOpenGifInfoScreen(it) },
                                 clickable = true
                             )

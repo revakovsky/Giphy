@@ -9,6 +9,6 @@ class GetSearchedGifsUseCase @Inject constructor(
     private val gifRepository: GifRepository,
 ) {
 
-    suspend operator fun invoke(query: String) = gifRepository.provideSearchedGifs(query)
+    suspend operator fun invoke(query: String) = gifRepository.provideSearchedGifsUrls(query)
 
 }

@@ -4,9 +4,7 @@ import com.revakovskyi.data.local.GifDataBase
 import com.revakovskyi.data.remote.ApiService
 import com.revakovskyi.data.remote.dto.Data
 import com.revakovskyi.data.utils.ExceptionHandler
-import com.revakovskyi.data.utils.mapToGif
 import com.revakovskyi.data.utils.mapToGifEntity
-import com.revakovskyi.domain.models.Gif
 import com.revakovskyi.domain.repository.GifRepository
 import com.revakovskyi.domain.util.DataResult
 import javax.inject.Inject
@@ -19,7 +17,7 @@ internal class GifRepositoryImpl @Inject constructor(
 
     private val dao = gifDataBase.dao
 
-    override suspend fun provideTrendingGifs(shouldRefreshGifs: Boolean): DataResult<List<Gif>> {
+    override suspend fun provideTrendingGifsUrls(shouldRefreshGifs: Boolean): DataResult<List<String>> {
         return try {
             if (shouldRefreshGifs) downloadNewGifs()
             else checkGifsInLocalDb()
@@ -28,16 +26,16 @@ internal class GifRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun checkGifsInLocalDb(): DataResult<List<Gif>> {
+    private suspend fun checkGifsInLocalDb(): DataResult<List<String>> {
         val localGifs = dao.provideGifEntities()
 
         return if (localGifs.isNotEmpty()) {
-            val gifs = localGifs.map { it.mapToGif() }
-            DataResult.Success(gifs)
+            val gifsUrls = localGifs.map { it.url }
+            DataResult.Success(gifsUrls)
         } else downloadNewGifs()
     }
 
-    private suspend fun downloadNewGifs(): DataResult<List<Gif>> {
+    private suspend fun downloadNewGifs(): DataResult<List<String>> {
         return try {
             val trendingGifs = apiService.getTrendingGifs()
             processRemoteData(trendingGifs.data)
@@ -46,22 +44,22 @@ internal class GifRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun processRemoteData(remoteData: List<Data>): DataResult.Success<List<Gif>> {
+    private suspend fun processRemoteData(remoteData: List<Data>): DataResult.Success<List<String>> {
         val gifEntities = remoteData.map { it.mapToGifEntity() }
 
         dao.apply {
             clearLocalDb()
             insertGifEntities(gifEntities)
         }
-        val gifs = dao.provideGifEntities().map { it.mapToGif() }
-        return DataResult.Success(gifs)
+        val gifsUrls = dao.provideGifEntities().map { it.url }
+        return DataResult.Success(gifsUrls)
     }
 
-    override suspend fun provideSearchedGifs(query: String): DataResult<List<Gif>> {
+    override suspend fun provideSearchedGifsUrls(query: String): DataResult<List<String>> {
         return try {
             val searchedGifs = apiService.getGifsByQuery(query = query)
-            val gifs = searchedGifs.data.map { it.mapToGif() }
-            DataResult.Success(gifs)
+            val gifsUrls = searchedGifs.data.map { it.images.original.url }
+            DataResult.Success(gifsUrls)
         } catch (e: Exception) {
             DataResult.Error(message = exceptionHandler.handleException(e))
         }
