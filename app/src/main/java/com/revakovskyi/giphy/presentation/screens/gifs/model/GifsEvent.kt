@@ -1,4 +1,4 @@
-package com.revakovskyi.giphy.presentation.screens.gifs.mvi
+package com.revakovskyi.giphy.presentation.screens.gifs.model
 
 sealed class GifsEvent {
 

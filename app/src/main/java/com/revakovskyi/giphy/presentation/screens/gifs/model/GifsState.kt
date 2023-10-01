@@ -1,4 +1,4 @@
-package com.revakovskyi.giphy.presentation.screens.gifs.mvi
+package com.revakovskyi.giphy.presentation.screens.gifs.model
 
 import com.revakovskyi.giphy.core.QueryManager
 

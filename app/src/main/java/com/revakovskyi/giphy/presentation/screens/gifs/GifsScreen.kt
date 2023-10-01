@@ -28,8 +28,8 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.revakovskyi.giphy.R
-import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsEvent
-import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsState
+import com.revakovskyi.giphy.presentation.screens.gifs.model.GifsEvent
+import com.revakovskyi.giphy.presentation.screens.gifs.model.GifsState
 import com.revakovskyi.giphy.presentation.ui.theme.dimens
 import com.revakovskyi.giphy.presentation.widgets.CoilImage
 import com.revakovskyi.giphy.presentation.widgets.OutlinedField

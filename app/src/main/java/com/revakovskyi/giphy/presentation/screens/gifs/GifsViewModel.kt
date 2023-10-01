@@ -9,8 +9,8 @@ import com.revakovskyi.domain.useCases.GetSearchedGifsUseCase
 import com.revakovskyi.domain.useCases.GetTrendingGifsUseCase
 import com.revakovskyi.domain.util.DataResult
 import com.revakovskyi.giphy.core.QueryManager
-import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsEvent
-import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsState
+import com.revakovskyi.giphy.presentation.screens.gifs.model.GifsEvent
+import com.revakovskyi.giphy.presentation.screens.gifs.model.GifsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

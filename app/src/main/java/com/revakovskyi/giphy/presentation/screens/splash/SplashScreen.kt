@@ -15,8 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import com.revakovskyi.giphy.presentation.screens.splash.mvi.SplashEvent
-import com.revakovskyi.giphy.presentation.screens.splash.mvi.SplashState
+import com.revakovskyi.giphy.presentation.screens.splash.model.SplashEvent
+import com.revakovskyi.giphy.presentation.screens.splash.model.SplashState
 import kotlinx.coroutines.delay
 
 @Composable

@@ -32,7 +32,7 @@ to the device settings and turn on the Internet
 - Material 3 Design
 - Multi-module project
 - Jetpack Compose
-- MVI architecture
+- MVVM architecture
 - Hilt for DI
 - Nested navigation
 - Animated screen transitions

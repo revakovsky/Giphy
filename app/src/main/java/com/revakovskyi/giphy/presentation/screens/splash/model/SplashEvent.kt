@@ -1,4 +1,4 @@
-package com.revakovskyi.giphy.presentation.screens.splash.mvi
+package com.revakovskyi.giphy.presentation.screens.splash.model
 
 sealed class SplashEvent {
 
