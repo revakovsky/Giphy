@@ -24,10 +24,7 @@ internal class GifRepositoryImpl @Inject constructor(
             if (shouldRefreshGifs) downloadNewGifs()
             else checkGifsInLocalDb()
         } catch (e: Exception) {
-            DataResult.Error(
-                data = null,
-                message = exceptionHandler.handleException(e)
-            )
+            DataResult.Error(message = exceptionHandler.handleException(e))
         }
     }
 
@@ -45,10 +42,7 @@ internal class GifRepositoryImpl @Inject constructor(
             val trendingGifs = apiService.getTrendingGifs()
             processRemoteData(trendingGifs.data)
         } catch (e: Exception) {
-            DataResult.Error(
-                data = null,
-                message = exceptionHandler.handleException(e)
-            )
+            DataResult.Error(message = exceptionHandler.handleException(e))
         }
     }
 
@@ -69,10 +63,7 @@ internal class GifRepositoryImpl @Inject constructor(
             val gifs = searchedGifs.data.map { it.mapToGif() }
             DataResult.Success(gifs)
         } catch (e: Exception) {
-            DataResult.Error(
-                data = null,
-                message = exceptionHandler.handleException(e)
-            )
+            DataResult.Error(message = exceptionHandler.handleException(e))
         }
     }
 
