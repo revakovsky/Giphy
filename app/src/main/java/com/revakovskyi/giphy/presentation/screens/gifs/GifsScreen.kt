@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -27,13 +28,12 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.revakovskyi.giphy.R
-import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsEvent
-import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsState
+import com.revakovskyi.giphy.presentation.screens.gifs.model.GifsEvent
+import com.revakovskyi.giphy.presentation.screens.gifs.model.GifsState
 import com.revakovskyi.giphy.presentation.ui.theme.dimens
 import com.revakovskyi.giphy.presentation.widgets.CoilImage
 import com.revakovskyi.giphy.presentation.widgets.OutlinedField
 import com.revakovskyi.giphy.presentation.widgets.ToolBar
-import kotlinx.coroutines.delay
 
 @OptIn(
     ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
@@ -61,10 +61,10 @@ fun GifsScreen(
             snackbarHostState.showSnackbar(state.errorMessage)
             onEvent(GifsEvent.ResetState)
         }
-        if (state.gifs.isEmpty()) {
-            delay(1000L)
+        if (state.gifsUrls?.isEmpty() == true) {
             snackbarHostState.showSnackbar(context.getString(R.string.nothing_was_found))
         }
+        if (state.chosenGifUrl.isNotEmpty()) onOpenGifInfoScreen(state.chosenGifUrl)
         if (state.shouldCloseTheApp) (context as Activity).finish()
     }
 
@@ -111,15 +111,20 @@ fun GifsScreen(
                         .padding(horizontal = MaterialTheme.dimens.medium),
                     columns = GridCells.Adaptive(MaterialTheme.dimens.gifMinSize),
                     content = {
-                        items(state.gifs.size) { itemIndex ->
-                            val gif = state.gifs[itemIndex]
+                        items(state.gifsUrls?.size ?: 0) { itemIndex ->
+                            if (state.gifsUrls != null) {
+                                val url = state.gifsUrls[itemIndex]
 
-                            CoilImage(
-                                imageLoader = imageLoader,
-                                url = gif.url,
-                                onImageClick = { onOpenGifInfoScreen(it) },
-                                clickable = true
-                            )
+                                CoilImage(
+                                    imageLoader = imageLoader,
+                                    url = url,
+                                    onImageClick = { chosenGifUrl ->
+                                        onEvent(GifsEvent.OnGifClick(chosenGifUrl))
+                                    },
+                                    clickable = true
+                                )
+
+                            }
 
                         }
                     }
@@ -132,5 +137,9 @@ fun GifsScreen(
     }
 
     BackHandler { onEvent(GifsEvent.OnBackButtonPressed) }
+
+    DisposableEffect(Unit) {
+        onDispose { onEvent(GifsEvent.ResetChosenGifUrl) }
+    }
 
 }

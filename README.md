@@ -30,6 +30,7 @@ to the device settings and turn on the Internet
 
 ### Libraries and features that were used in the project
 
+
 - [Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
 - [Material 3 Design](https://developer.android.com/jetpack/androidx/releases/compose-material3)
 - [Jetpack Compose](https://developer.android.com/jetpack/compose)

@@ -5,14 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.revakovskyi.domain.models.Gif
 import com.revakovskyi.domain.useCases.GetSearchedGifsUseCase
 import com.revakovskyi.domain.useCases.GetTrendingGifsUseCase
 import com.revakovskyi.domain.util.DataResult
 import com.revakovskyi.giphy.core.QueryManager
-import com.revakovskyi.giphy.presentation.models.mapToGifUi
-import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsEvent
-import com.revakovskyi.giphy.presentation.screens.gifs.mvi.GifsState
+import com.revakovskyi.giphy.presentation.screens.gifs.model.GifsEvent
+import com.revakovskyi.giphy.presentation.screens.gifs.model.GifsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -44,7 +42,9 @@ class GifsViewModel @Inject constructor(
         when (event) {
             is GifsEvent.ProvideGifsByQuery -> getSearchedGifs(event.query)
             GifsEvent.RefreshGifs -> getTrendingGifs(shouldRefreshGifs = true)
+            is GifsEvent.OnGifClick -> state = state.copy(chosenGifUrl = event.gifUrl)
             GifsEvent.OnBackButtonPressed -> chooseAction()
+            GifsEvent.ResetChosenGifUrl -> state = state.copy(chosenGifUrl = "")
             GifsEvent.ResetState -> state = GifsState()
         }
     }
@@ -53,7 +53,7 @@ class GifsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 query = ""
-                state = state.copy(gifs = emptyList(), isLoading = true, enteredQuery = query)
+                state = state.copy(isLoading = true, enteredQuery = query)
             }
             val dataResult = getTrendingGifsUseCase(shouldRefreshGifs)
             processDataResult(dataResult)
@@ -84,7 +84,11 @@ class GifsViewModel @Inject constructor(
 
     private fun verifyQueryForCorrectSpelling(query: String): QueryManager.Status {
         val status = queryManager.verifyQuery(query)
-        state = state.copy(queryVerificationStatus = status)
+        state = state.copy(
+            queryVerificationStatus = status,
+            errorMessage = "",
+            gifsUrls = if (state.gifsUrls?.isEmpty() == true) null else state.gifsUrls
+        )
         return status
     }
 
@@ -92,20 +96,21 @@ class GifsViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             delay(500L)
-            withContext(Dispatchers.Main) { state = state.copy(isLoading = true) }
+            withContext(Dispatchers.Main) {
+                state = state.copy(isLoading = true, errorMessage = "")
+            }
             val dataResult = getSearchedGifsUseCase(query)
             processDataResult(dataResult)
         }
     }
 
-    private suspend fun processDataResult(dataResult: DataResult<List<Gif>>) {
+    private suspend fun processDataResult(dataResult: DataResult<List<String>>) {
         withContext(Dispatchers.Main) {
             state = when (dataResult) {
 
                 is DataResult.Success -> {
-                    val gifs = dataResult.data?.map { it.mapToGifUi() } ?: emptyList()
-                    if (gifs.isNotEmpty()) state.copy(gifs = gifs, isLoading = false)
-                    else state.copy(isLoading = false)
+                    val gifsUrls = dataResult.data
+                    state.copy(gifsUrls = gifsUrls, isLoading = false)
                 }
 
                 is DataResult.Error -> {

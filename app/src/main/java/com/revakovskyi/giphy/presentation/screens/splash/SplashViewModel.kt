@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.revakovskyi.giphy.core.ConnectivityObserver
-import com.revakovskyi.giphy.presentation.screens.splash.mvi.SplashEvent
-import com.revakovskyi.giphy.presentation.screens.splash.mvi.SplashState
+import com.revakovskyi.giphy.presentation.screens.splash.model.SplashEvent
+import com.revakovskyi.giphy.presentation.screens.splash.model.SplashState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,6 +25,7 @@ class SplashViewModel @Inject constructor(
         when (event) {
             SplashEvent.CheckConnectivity -> checkConnectivity()
             SplashEvent.ResetState -> state = SplashState()
+            SplashEvent.CloseApp -> state = state.copy(shouldCloseApp = true)
         }
     }
 
