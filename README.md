@@ -1,5 +1,7 @@
 # Giphy
 
+![screen_record](screenRecord/giphy_sreen.gif)
+
 <br>
 
 ### Application Description
@@ -28,20 +30,21 @@ to the device settings and turn on the Internet
 
 ### Libraries and features that were used in the project
 
-- Kotlin DSL
-- Material 3 Design
-- Multi-module project
-- Jetpack Compose
+
+- [Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
+- [Material 3 Design](https://developer.android.com/jetpack/androidx/releases/compose-material3)
+- [Jetpack Compose](https://developer.android.com/jetpack/compose)
+- [Multi-module project](https://developer.android.com/topic/modularization)
 - MVVM architecture
-- Hilt for DI
-- Nested navigation
+- [Hilt for DI](https://dagger.dev/hilt/)
+- [Nested navigation](https://developer.android.com/jetpack/compose/navigation#nested-nav)
 - Animated screen transitions
-- Lottie animations for compose
+- [Lottie animations for compose](https://github.com/airbnb/lottie/blob/master/android-compose.md)
 - The Internet connectivity check
-- Coroutines
-- Retrofit2 + OkHttp
-- Room
-- Swipe Refresh
-- Coil
+- [Coroutines](https://developer.android.com/kotlin/coroutines)
+- [Retrofit2](https://square.github.io/retrofit/) + [OkHttp](https://square.github.io/okhttp/)
+- [Room](https://developer.android.com/jetpack/androidx/releases/room)
+- [Swipe Refresh](https://google.github.io/accompanist/swiperefresh/)
+- [Coil](https://coil-kt.github.io/coil/)
 - Input text validation
 - Landscape/Portrait screen orientation
