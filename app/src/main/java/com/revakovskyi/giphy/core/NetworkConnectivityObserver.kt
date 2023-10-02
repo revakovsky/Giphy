@@ -3,6 +3,7 @@ package com.revakovskyi.giphy.core
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
+import android.net.NetworkCapabilities
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,14 @@ class NetworkConnectivityObserver @Inject constructor(
 ) : ConnectivityObserver {
 
     private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    override fun hasConnection(): Boolean {
+        (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).also { connectivityManager ->
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork).run {
+                return this?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+            }
+        }
+    }
 
     override fun observeConnectivity(): Flow<ConnectivityObserver.Status> {
         return callbackFlow {

@@ -11,13 +11,11 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.revakovskyi.giphy.presentation.screens.splash.model.SplashEvent
 import com.revakovskyi.giphy.presentation.screens.splash.model.SplashState
-import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
@@ -26,9 +24,7 @@ fun SplashScreen(
     state: SplashState,
 ) {
     val context = LocalContext.current
-
     var animationProgress by remember { mutableFloatStateOf(0f) }
-    var hasConnection by remember { mutableStateOf<Boolean?>(null) }
 
     val settingsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -42,15 +38,9 @@ fun SplashScreen(
 
     LaunchedEffect(key1 = state) {
         if (state.shouldCloseApp) (context as Activity).finish()
-
-        delay(200L)
-        hasConnection = when (state.hasInternetConnection) {
-            true -> true
-            else -> false
-        }
     }
 
-    when (hasConnection) {
+    when (state.hasInternetConnection) {
         true -> Greetings(onGreetingsProgressChange = { animationProgress = it })
         false -> {
             NoInternetConnection(

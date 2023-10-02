@@ -9,8 +9,8 @@ import com.revakovskyi.giphy.core.ConnectivityObserver
 import com.revakovskyi.giphy.presentation.screens.splash.model.SplashEvent
 import com.revakovskyi.giphy.presentation.screens.splash.model.SplashState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,7 +18,7 @@ class SplashViewModel @Inject constructor(
     private val connectivityObserver: ConnectivityObserver,
 ) : ViewModel() {
 
-    var state by mutableStateOf(SplashState())
+    var state by mutableStateOf(SplashState(hasInternetConnection = null))
         private set
 
     fun onEvent(event: SplashEvent) {
@@ -30,14 +30,13 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun checkConnectivity() {
-        viewModelScope.launch {
-            connectivityObserver.observeConnectivity().collectLatest { status ->
-                state =
-                    if (status == ConnectivityObserver.Status.Available) {
-                        state.copy(hasInternetConnection = true)
-                    } else state.copy(hasInternetConnection = false)
+        if (!connectivityObserver.hasConnection()) state = state.copy(hasInternetConnection = false)
+        connectivityObserver.observeConnectivity().onEach { connectivityStatus ->
+            state = when (connectivityStatus) {
+                ConnectivityObserver.Status.Available -> state.copy(hasInternetConnection = true)
+                else -> state.copy(hasInternetConnection = false)
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
 }
