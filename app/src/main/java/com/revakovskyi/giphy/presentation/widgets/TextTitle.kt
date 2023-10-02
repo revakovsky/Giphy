@@ -7,13 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import com.revakovskyi.giphy.presentation.ui.theme.AppTypography
 
 @Composable
 fun TextTitle(
     modifier: Modifier = Modifier,
     text: String,
-    style: TextStyle = AppTypography.titleMedium,
+    style: TextStyle = MaterialTheme.typography.titleMedium,
     textColor: Color = MaterialTheme.colorScheme.primary,
     textAlign: TextAlign = TextAlign.Center,
 ) {

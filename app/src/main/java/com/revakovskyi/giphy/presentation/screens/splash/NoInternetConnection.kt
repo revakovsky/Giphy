@@ -1,6 +1,5 @@
 package com.revakovskyi.giphy.presentation.screens.splash
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -24,7 +22,6 @@ import com.revakovskyi.giphy.presentation.widgets.ButtonRegular
 import com.revakovskyi.giphy.presentation.widgets.TextRegular
 import com.revakovskyi.giphy.presentation.widgets.TextTitle
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoInternetConnection(
     modifier: Modifier = Modifier,
@@ -57,7 +54,6 @@ fun NoInternetConnection(
             TextRegular(
                 modifier = Modifier.padding(top = MaterialTheme.dimens.large),
                 text = stringResource(R.string.connection_was_lost),
-                textAlign = TextAlign.Center
             )
 
             ButtonRegular(

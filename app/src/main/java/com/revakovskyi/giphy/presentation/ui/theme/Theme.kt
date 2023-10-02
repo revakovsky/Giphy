@@ -13,42 +13,20 @@ import androidx.core.view.WindowCompat
 
 private val DarkColors = darkColorScheme(
     primary = darkPrimary,
-    onPrimary = darkOnPrimary,
     primaryContainer = darkPrimaryContainer,
-    onPrimaryContainer = darkOnPrimaryContainer,
 
-    secondary = darkSecondary,
-    onSecondary = darkOnSecondary,
     secondaryContainer = darkSecondaryContainer,
     onSecondaryContainer = darkOnSecondaryContainer,
 
     tertiary = darkTertiary,
-    onTertiary = darkOnTertiary,
     tertiaryContainer = darkTertiaryContainer,
     onTertiaryContainer = darkOnTertiaryContainer,
 
-    error = darkError,
     errorContainer = darkErrorContainer,
-    onError = darkOnError,
-    onErrorContainer = darkOnErrorContainer,
 
-    background = darkBackground,
     onBackground = darkOnBackground,
 
-    surface = darkSurface,
-    onSurface = darkOnSurface,
-    surfaceVariant = darkSurfaceVariant,
-    onSurfaceVariant = darkOnSurfaceVariant,
-    surfaceTint = darkSurfaceTint,
-
     outline = darkOutline,
-    outlineVariant = darkOutlineVariant,
-
-    inverseOnSurface = darkInverseOnSurface,
-    inverseSurface = darkInverseSurface,
-    inversePrimary = darkInversePrimary,
-
-    scrim = darkScrim,
 )
 
 @Composable

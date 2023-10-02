@@ -1,6 +1,5 @@
 package com.revakovskyi.giphy.presentation.widgets
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,12 +11,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.revakovskyi.giphy.R
@@ -27,11 +24,9 @@ import com.revakovskyi.giphy.presentation.ui.theme.dimens
 @Composable
 fun ToolBar(
     modifier: Modifier = Modifier,
-    @StringRes titleRes: Int? = null,
+    titleText: String = "",
     showNavigationIcon: Boolean = true,
-    navigationIcon: ImageVector = Icons.Default.KeyboardArrowLeft,
     onNavigationIconClick: () -> Unit = { },
-    scrollBehaviour: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
 ) {
 
     TopAppBar(
@@ -44,11 +39,11 @@ fun ToolBar(
             )
         ),
         title = {
-            if (titleRes != null) TextTitle(
+            if (titleText.isNotEmpty()) TextTitle(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = MaterialTheme.dimens.medium),
-                text = stringResource(id = titleRes),
+                text = titleText,
                 style = MaterialTheme.typography.titleSmall,
                 textAlign = TextAlign.Center
             )
@@ -56,7 +51,7 @@ fun ToolBar(
         navigationIcon = {
             if (showNavigationIcon) IconButton(onClick = { onNavigationIconClick() }) {
                 Icon(
-                    imageVector = navigationIcon,
+                    imageVector = Icons.Default.KeyboardArrowLeft,
                     contentDescription = stringResource(R.string.back),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
@@ -64,7 +59,7 @@ fun ToolBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
-        scrollBehavior = scrollBehaviour
+        scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     )
 
 }
