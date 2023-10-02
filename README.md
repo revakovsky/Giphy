@@ -1,5 +1,7 @@
 # Giphy
 
+[The link to download the .apk file of the app for testing purposes](https://drive.google.com/file/d/1YXiaUzhc4AQcCssE8YRQjT3SjT1FNXMb/view?usp=sharing)
+
 ![screen_record](screenRecord/giphy_sreen.gif)
 
 <br>
