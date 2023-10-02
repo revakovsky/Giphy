@@ -7,6 +7,6 @@ sealed class GifsEvent {
     data class OnGifClick(val gifUrl: String = "") : GifsEvent()
     object OnBackButtonPressed : GifsEvent()
     object ResetChosenGifUrl : GifsEvent()
-    object ResetState : GifsEvent()
+    object ResetGifUrls : GifsEvent()
 
 }

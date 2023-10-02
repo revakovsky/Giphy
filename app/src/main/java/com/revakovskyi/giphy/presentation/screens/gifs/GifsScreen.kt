@@ -3,13 +3,11 @@ package com.revakovskyi.giphy.presentation.screens.gifs
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -23,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import coil.ImageLoader
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
@@ -35,9 +34,6 @@ import com.revakovskyi.giphy.presentation.widgets.CoilImage
 import com.revakovskyi.giphy.presentation.widgets.OutlinedField
 import com.revakovskyi.giphy.presentation.widgets.ToolBar
 
-@OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
-)
 @Composable
 fun GifsScreen(
     onOpenGifInfoScreen: (String) -> Unit,
@@ -59,7 +55,7 @@ fun GifsScreen(
     LaunchedEffect(key1 = state) {
         if (state.errorMessage.isNotEmpty()) {
             snackbarHostState.showSnackbar(state.errorMessage)
-            onEvent(GifsEvent.ResetState)
+            onEvent(GifsEvent.ResetGifUrls)
         }
         if (state.gifsUrls?.isEmpty() == true) {
             snackbarHostState.showSnackbar(context.getString(R.string.nothing_was_found))
@@ -73,7 +69,7 @@ fun GifsScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             ToolBar(
-                titleRes = R.string.app_name,
+                titleText = stringResource(id = R.string.app_name),
                 showNavigationIcon = false
             )
         }

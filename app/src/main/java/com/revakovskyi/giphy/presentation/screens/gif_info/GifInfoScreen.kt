@@ -3,7 +3,6 @@ package com.revakovskyi.giphy.presentation.screens.gif_info
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -18,7 +17,6 @@ import com.revakovskyi.giphy.R
 import com.revakovskyi.giphy.presentation.widgets.CoilImage
 import com.revakovskyi.giphy.presentation.widgets.ToolBar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GifInfoScreen(
     url: String,

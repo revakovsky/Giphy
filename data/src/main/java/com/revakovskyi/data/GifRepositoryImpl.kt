@@ -11,11 +11,9 @@ import javax.inject.Inject
 
 internal class GifRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    gifDataBase: GifDataBase,
+    private val gifDataBase: GifDataBase,
     private val exceptionHandler: ExceptionHandler,
 ) : GifRepository {
-
-    private val dao = gifDataBase.dao
 
     override suspend fun provideTrendingGifsUrls(shouldRefreshGifs: Boolean): DataResult<List<String>> {
         return try {
@@ -27,7 +25,7 @@ internal class GifRepositoryImpl @Inject constructor(
     }
 
     private suspend fun checkGifsInLocalDb(): DataResult<List<String>> {
-        val localGifs = dao.provideGifEntities()
+        val localGifs = gifDataBase.dao.provideGifEntities()
 
         return if (localGifs.isNotEmpty()) {
             val gifsUrls = localGifs.map { it.url }
@@ -47,11 +45,11 @@ internal class GifRepositoryImpl @Inject constructor(
     private suspend fun processRemoteData(remoteData: List<Data>): DataResult.Success<List<String>> {
         val gifEntities = remoteData.map { it.mapToGifEntity() }
 
-        dao.apply {
+        gifDataBase.dao.apply {
             clearLocalDb()
             insertGifEntities(gifEntities)
         }
-        val gifsUrls = dao.provideGifEntities().map { it.url }
+        val gifsUrls = gifDataBase.dao.provideGifEntities().map { it.url }
         return DataResult.Success(gifsUrls)
     }
 

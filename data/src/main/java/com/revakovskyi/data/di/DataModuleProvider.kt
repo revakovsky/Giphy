@@ -23,7 +23,7 @@ internal class DataModuleProvider {
 
     @Provides
     @Singleton
-    fun provideApiService(): ApiService {
+    fun provideRetrofit(): Retrofit {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             setLevel(
                 if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
@@ -40,8 +40,11 @@ internal class DataModuleProvider {
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
             .build()
-            .create()
     }
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create()
 
     @Provides
     @Singleton
