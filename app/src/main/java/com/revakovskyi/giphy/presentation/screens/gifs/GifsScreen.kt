@@ -59,7 +59,7 @@ fun GifsScreen(
     LaunchedEffect(key1 = state) {
         if (state.errorMessage.isNotEmpty()) {
             snackbarHostState.showSnackbar(state.errorMessage)
-            onEvent(GifsEvent.ResetState)
+            onEvent(GifsEvent.ResetGifUrls)
         }
         if (state.gifsUrls?.isEmpty() == true) {
             snackbarHostState.showSnackbar(context.getString(R.string.nothing_was_found))
