@@ -35,7 +35,7 @@ to the device settings and turn on the Internet
 - [Material 3 Design](https://developer.android.com/jetpack/androidx/releases/compose-material3)
 - [Jetpack Compose](https://developer.android.com/jetpack/compose)
 - [Multi-module project](https://developer.android.com/topic/modularization)
-- MVVM architecture
+- MVI architecture
 - [Hilt for DI](https://dagger.dev/hilt/)
 - [Nested navigation](https://developer.android.com/jetpack/compose/navigation#nested-nav)
 - Animated screen transitions
