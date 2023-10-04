@@ -30,8 +30,6 @@ class GifsViewModel @Inject constructor(
     var state by mutableStateOf(GifsState())
         private set
 
-    private var query = ""
-
     init {
         viewModelScope.launch(Dispatchers.IO) {
             getTrendingGifs(shouldRefreshGifs = false)
@@ -52,11 +50,10 @@ class GifsViewModel @Inject constructor(
     private fun getTrendingGifs(shouldRefreshGifs: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
-                query = ""
                 state = state.copy(
                     gifsUrls = if (shouldRefreshGifs) null else if (state.gifsUrls?.isNotEmpty() == true) state.gifsUrls else null,
                     isLoading = true,
-                    enteredQuery = query,
+                    enteredQuery = "",
                     errorMessage = ""
                 )
             }
@@ -66,7 +63,7 @@ class GifsViewModel @Inject constructor(
     }
 
     private fun getSearchedGifs(enteredQuery: String) {
-        query = checkQueryForEmptinessAndGiveItBack(enteredQuery)
+        val query = checkQueryForEmptinessAndGiveItBack(enteredQuery)
 
         if (query.isEmpty()) showTrendingGifs()
         else {
@@ -76,7 +73,7 @@ class GifsViewModel @Inject constructor(
     }
 
     private fun refreshGifs() {
-        if (query.isNotEmpty()) getSearchedGifs(query)
+        if (state.enteredQuery.isNotEmpty()) getSearchedGifs(state.enteredQuery)
         else getTrendingGifs(shouldRefreshGifs = true)
     }
 
@@ -133,10 +130,9 @@ class GifsViewModel @Inject constructor(
     }
 
     private fun chooseAction() {
-        if (query.isNotEmpty()) {
-            query = ""
+        if (state.enteredQuery.isNotEmpty()) {
             state = state.copy(
-                enteredQuery = query,
+                enteredQuery = "",
                 queryVerificationStatus = QueryManager.Status.Neutral
             )
             getTrendingGifs(shouldRefreshGifs = false)
