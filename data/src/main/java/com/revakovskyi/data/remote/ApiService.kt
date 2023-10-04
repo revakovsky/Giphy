@@ -1,8 +1,7 @@
 package com.revakovskyi.data.remote
 
 import com.revakovskyi.data.BuildConfig
-import com.revakovskyi.data.remote.dto.SearchedGifsDto
-import com.revakovskyi.data.remote.dto.TrendingGifsDto
+import com.revakovskyi.data.remote.dto.GifsDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,7 +13,7 @@ internal interface ApiService {
         @Query("limit") limit: Int = LIMIT,
         @Query("offset") offset: Int = OFFSET,
         @Query("rating") rating: String = RATING,
-    ): TrendingGifsDto
+    ): GifsDto
 
     @GET("search")
     suspend fun getGifsByQuery(
@@ -24,7 +23,7 @@ internal interface ApiService {
         @Query("offset") offset: Int = OFFSET,
         @Query("rating") rating: String = RATING,
         @Query("lang") lang: String = LANGUAGE,
-    ): SearchedGifsDto
+    ): GifsDto
 
 
     companion object {
