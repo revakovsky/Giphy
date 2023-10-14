@@ -48,7 +48,7 @@ internal class DataModuleProvider {
 
     @Provides
     @Singleton
-    fun provideStockDatabase(@ApplicationContext context: Context): GifDataBase {
+    fun provideGifDatabase(@ApplicationContext context: Context): GifDataBase {
         return Room.databaseBuilder(
             context,
             GifDataBase::class.java,
